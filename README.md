@@ -27,4 +27,3 @@ How to Build:
 3. If it not installed automatically, run >flutter pub get in terminal.
 
 4. from the menu of android studio Run build->flutter->build APK.
-
