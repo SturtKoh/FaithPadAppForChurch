@@ -27,3 +27,7 @@ How to Build:
 3. If it not installed automatically, run >flutter pub get in terminal.
 
 4. from the menu of android studio Run build->flutter->build APK.
+
+** 2020-11-11 update **
+
+if channel is now realtime broadcasting, play directly current live broadcast.

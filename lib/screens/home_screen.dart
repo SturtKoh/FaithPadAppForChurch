@@ -4,7 +4,9 @@ import 'package:faith_pad_test/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:faith_pad_test/models/channel_info.dart';
+import 'package:faith_pad_test/models/streaming_info.dart';
 import 'package:faith_pad_test/utils/services.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,6 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String _playListId;
   String _nextPageToken;
   ScrollController _scrollController;
+  bool _isLiveOn;
+  String  _liveVideoId;
+  YoutubePlayerController _controller;
 
   @override
   void initState() {
@@ -29,7 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController = ScrollController();
     _videosList = VideosList();
     _videosList.videos  = List();
+    _isLiveOn = false;
+    _liveVideoId = '';
     _getChannelInfo();
+    _getStreamingInfo();
   }
 
   _getChannelInfo() async {
@@ -56,63 +64,111 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  _getStreamingInfo() async {
+    StreamingInfo  streaming_info = await Services.getStreamingInfo();
+    int vcount = streaming_info.pageInfo.totalResults;
+
+    setState(() {
+      if (vcount > 0){
+        _liveVideoId = streaming_info.items[0].streaming_id.videoId;
+        _isLiveOn = true;
+        print('_liveVideoId $_liveVideoId');
+        _controller = YoutubePlayerController(
+          initialVideoId: _liveVideoId,
+          flags: YoutubePlayerFlags(
+            isLive: true,
+            mute: false,
+            autoPlay: true,
+          ),
+        );
+      }
+      else{
+        _isLiveOn = false;
+        _liveVideoId = '';
+        print('Live is off _liveVideoId $_liveVideoId');
+      }
+    });
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_loading? '로딩중':'명륜교회 온라인 예배'),
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            _buildInfoView(),
-            Expanded(
-              child:NotificationListener<ScrollEndNotification>(
-                onNotification: (ScrollNotification notification){
-                  if (_videosList.videos.length >= int.parse(_item.statistics.videoCount)){
-                    return true;
-                  }
-                  if (notification.metrics.pixels ==
-                  notification.metrics.maxScrollExtent){
-                    _loadVideos();
-                  }
-                  return true;
-                },
-                child:ListView.builder(
-                    controller: _scrollController,
-                    itemCount: _videosList.videos.length,
-                    itemBuilder: (context, index) {
-                      VideoItem videoItem = _videosList.videos[index];
-                      return InkWell(
-                        onTap: ()async{
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return VideoPlayerScreen(
-                              videoItem: videoItem,
-                            );
-                          }),
-                          );
-                        },
-                        child: Container(
-                            padding: EdgeInsets.all(20.0),
-                            child:Row(
-                              children: [
-                                CachedNetworkImage(
-                                  imageUrl: videoItem.video.thumbnails.thumbnailsDefault.url,
-                                ),
-                                SizedBox(width: 20),
-                                Flexible(child:Text(videoItem.video.title)),
-                                SizedBox(width: 20),
-                              ],
-                            )
-                        ),
-                      );
-                    }),
-              ),
-            ),
-          ],
+    if (_isLiveOn == true && _liveVideoId != '') {
+      print('Play Live : $_liveVideoId');
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text('실시간 예배'),
         ),
-      ),
-    );
+        body: Container(
+          child: YoutubePlayer(
+            controller: _controller,
+            showVideoProgressIndicator: true,
+            progressIndicatorColor: Colors.red,
+            ),
+          ),
+      );
+    } //  if
+    else {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(_loading ? '로딩중' : '온라인 예배 목록'),
+        ),
+        body: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              _buildInfoView(),
+              Expanded(
+                child: NotificationListener<ScrollEndNotification>(
+                  onNotification: (ScrollNotification notification) {
+                    if (_videosList.videos.length >=
+                        int.parse(_item.statistics.videoCount)) {
+                      return true;
+                    }
+                    if (notification.metrics.pixels ==
+                        notification.metrics.maxScrollExtent) {
+                      _loadVideos();
+                    }
+                    return true;
+                  },
+                  child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: _videosList.videos.length,
+                      itemBuilder: (context, index) {
+                        VideoItem videoItem = _videosList.videos[index];
+                        return InkWell(
+                          onTap: () async {
+                            Navigator.push(
+                              context, MaterialPageRoute(builder: (context) {
+                              return VideoPlayerScreen(
+                                videoItem: videoItem,
+                              );
+                            }),
+                            );
+                          },
+                          child: Container(
+                              padding: EdgeInsets.all(20.0),
+                              child: Row(
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: videoItem.video.thumbnails
+                                        .thumbnailsDefault.url,
+                                  ),
+                                  SizedBox(width: 20),
+                                  Flexible(child: Text(videoItem.video.title)),
+                                  SizedBox(width: 20),
+                                ],
+                              )
+                          ),
+                        );
+                      }),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }  //  else
   }
 
   _buildInfoView(){
