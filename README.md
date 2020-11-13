@@ -31,3 +31,8 @@ How to Build:
 ** 2020-11-11 update **
 
 if channel is now realtime broadcasting, play directly current live broadcast.
+
+** 2020-11-13 update **
+
+Apply App Icon, App Name (Jonggyo church icon & name)
+Automatically change to full screen when playing video.

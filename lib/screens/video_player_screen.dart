@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:faith_pad_test/models/videos_list.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter/services.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final VideoItem   videoItem;
@@ -48,6 +49,72 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _controller.fitHeight(MediaQuery.of(context).size);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+//         DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeRight
+    ]);
+    return WillPopScope(
+        onWillPop: () async {
+          SystemChrome.setPreferredOrientations([
+            DeviceOrientation.portraitUp,
+          ]);
+          return true;
+        },
+        child: Scaffold(
+            backgroundColor: Colors.black.withOpacity(0.88),
+            body: Center(
+                child: SingleChildScrollView(
+                    child: Column(children: [
+                      YoutubePlayer(
+                        controller: _controller,
+                        aspectRatio: 16 / 9,
+                        showVideoProgressIndicator: false,
+                        controlsTimeOut: Duration(seconds: 2),
+                        progressIndicatorColor: Colors.red,
+                        actionsPadding: EdgeInsets.only(bottom: 50),
+                        topActions: [
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.white,
+                              size: 20.0,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              SystemChrome.setPreferredOrientations([
+                                DeviceOrientation.portraitUp,
+                              ]);
+                            },
+                          ),
+                          Expanded(
+                            child: Text(
+                              'Pastel Painting: Animals',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                        bottomActions: [
+                          CurrentPosition(),
+                          SizedBox(width: 10.0),
+                          ProgressBar(isExpanded: true),
+                          SizedBox(width: 10.0),
+                          RemainingDuration(),
+                          FullScreenButton(),
+                        ],
+                        onReady: () {
+
+                        },
+                      ),
+                    ])))));
+  }
+    /*
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -66,4 +133,5 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       )
     );
   }
+  */
 }

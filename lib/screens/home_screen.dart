@@ -7,6 +7,7 @@ import 'package:faith_pad_test/models/channel_info.dart';
 import 'package:faith_pad_test/models/streaming_info.dart';
 import 'package:faith_pad_test/utils/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -93,6 +94,71 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     if (_isLiveOn == true && _liveVideoId != '') {
       print('Play Live : $_liveVideoId');
+      _controller.fitHeight(MediaQuery.of(context).size);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+//         DeviceOrientation.portraitUp,
+        DeviceOrientation.landscapeRight
+      ]);
+      return WillPopScope(
+          onWillPop: () async {
+            SystemChrome.setPreferredOrientations([
+              DeviceOrientation.portraitUp,
+            ]);
+            return true;
+          },
+          child: Scaffold(
+              backgroundColor: Colors.black.withOpacity(0.88),
+              body: Center(
+                  child: SingleChildScrollView(
+                      child: Column(children: [
+                        YoutubePlayer(
+                          controller: _controller,
+                          aspectRatio: 16 / 9,
+                          showVideoProgressIndicator: false,
+                          controlsTimeOut: Duration(seconds: 2),
+                          progressIndicatorColor: Colors.red,
+                          actionsPadding: EdgeInsets.only(bottom: 50),
+                          topActions: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: 20.0,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                SystemChrome.setPreferredOrientations([
+                                  DeviceOrientation.portraitUp,
+                                ]);
+                              },
+                            ),
+                            Expanded(
+                              child: Text(
+                                'Pastel Painting: Animals',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
+                          bottomActions: [
+                            CurrentPosition(),
+                            SizedBox(width: 10.0),
+                            ProgressBar(isExpanded: true),
+                            SizedBox(width: 10.0),
+                            RemainingDuration(),
+                            FullScreenButton(),
+                          ],
+                          onReady: () {
+
+                          },
+                        ),
+                      ])))));
+      /*
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
@@ -106,12 +172,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
       );
+      */
     } //  if
     else {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text(_loading ? '로딩중' : '온라인 예배 목록'),
+          title: Text(_loading ? '로딩중' : '지난 예배 목록'),
         ),
         body: Container(
           color: Colors.white,
@@ -169,6 +236,20 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     }  //  else
+  }
+
+  youtubeHierarchy() {
+    return Container(
+      child: Align(
+        alignment: Alignment.center,
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: YoutubePlayer(
+            controller: _controller,
+          ),
+        ),
+      ),
+    );
   }
 
   _buildInfoView(){
