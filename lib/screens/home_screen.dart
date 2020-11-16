@@ -100,13 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //         DeviceOrientation.portraitUp,
         DeviceOrientation.landscapeRight
       ]);
-      return WillPopScope(
-          onWillPop: () async {
-            SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-            ]);
-            return true;
-          },
+      return Container(
           child: Scaffold(
               backgroundColor: Colors.black.withOpacity(0.88),
               body: Center(

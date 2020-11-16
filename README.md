@@ -36,3 +36,7 @@ if channel is now realtime broadcasting, play directly current live broadcast.
 
 Apply App Icon, App Name (Jonggyo church icon & name)
 Automatically change to full screen when playing video.
+
+** 2020-11-15 update **
+
+Fullscreen Bugfix

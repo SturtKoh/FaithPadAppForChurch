@@ -50,18 +50,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     _controller.fitHeight(MediaQuery.of(context).size);
+    /*
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
-//         DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeRight
     ]);
-    return WillPopScope(
-        onWillPop: () async {
-          SystemChrome.setPreferredOrientations([
-            DeviceOrientation.portraitUp,
-          ]);
-          return true;
-        },
+    */
+    return Container(
         child: Scaffold(
             backgroundColor: Colors.black.withOpacity(0.88),
             body: Center(
