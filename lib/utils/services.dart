@@ -7,8 +7,8 @@ import 'package:faith_pad_test/models/streaming_info.dart';
 
 class Services{
   //
-  //  static const CHANNEL_ID = 'UCfmySLZRhug4Hf1kE9zTauw';     //  명륜교회
-  static const CHANNEL_ID = 'UCy7OAmnypJJFE599cdkh6Kg';       //  종교교회
+  static const CHANNEL_ID = 'UCfmySLZRhug4Hf1kE9zTauw';     //  명륜교회
+  //  static const CHANNEL_ID = 'UCy7OAmnypJJFE599cdkh6Kg';       //  종교교회
   //  static const CHANNEL_ID = 'UCSLU0lhQ73EtCzQfWuxiecA';       //  Live Test
 
   static const _baseUrl = 'www.googleapis.com';

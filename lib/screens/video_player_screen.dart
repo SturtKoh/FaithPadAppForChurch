@@ -49,8 +49,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _controller.fitHeight(MediaQuery.of(context).size);
     /*
+    _controller.fitHeight(MediaQuery.of(context).size);
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
@@ -85,7 +85,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              'Pastel Painting: Animals',
+                              '목록으로',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,

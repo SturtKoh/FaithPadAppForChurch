@@ -40,3 +40,8 @@ Automatically change to full screen when playing video.
 ** 2020-11-15 update **
 
 Fullscreen Bugfix
+
+** 2020-11-23 update **
+
+Change orientation bug fix: both live and stock videos.
+

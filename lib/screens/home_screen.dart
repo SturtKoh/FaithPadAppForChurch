@@ -94,12 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     if (_isLiveOn == true && _liveVideoId != '') {
       print('Play Live : $_liveVideoId');
+      /*
       _controller.fitHeight(MediaQuery.of(context).size);
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
 //         DeviceOrientation.portraitUp,
         DeviceOrientation.landscapeRight
       ]);
+       */
       return Container(
           child: Scaffold(
               backgroundColor: Colors.black.withOpacity(0.88),
@@ -129,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                'Pastel Painting: Animals',
+                                '',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18.0,
@@ -152,21 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                       ])))));
-      /*
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text('실시간 예배'),
-        ),
-        body: Container(
-          child: YoutubePlayer(
-            controller: _controller,
-            showVideoProgressIndicator: true,
-            progressIndicatorColor: Colors.red,
-            ),
-          ),
-      );
-      */
     } //  if
     else {
       return Scaffold(
