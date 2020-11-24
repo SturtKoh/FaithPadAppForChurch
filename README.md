@@ -28,6 +28,40 @@ How to Build:
 
 4. from the menu of android studio Run build->flutter->build APK.
 
+== How to customize to your church == 
+
+1. change app label
+file: android>app>src>nauk>AndroidManifest.xml
+
+<manifest
+ <application
+  android:label="YOUR±³È¸"  <-- Here
+
+2. change channel id
+file: >lib>utils>services.dart
+
+class Services{
+  //
+  static const CHANNEL_ID = 'UCfmySLZRhug4Hf1kE9zTauw';  <-- Here
+
+3. change icons
+
+Make your church icon 48*48, 72*72, 96*96, 144*144, 192*192
+(It is easier to make icons at https://appicon.co/)
+
+copy and overwrite icon files at
+android / app / src / main / res / mipmap-hdpi
+android / app / src / main / res / mipmap-mdpi
+android / app / src / main / res / mipmap-xhdpi
+android / app / src / main / res / mipmap-xxhdpi
+android / app / src / main / res / mipmap-xxxhdpi
+
+4. build 
+
+At the Androidstudio menu build->flutter->build apk
+output file "app-release.apk" placed at 
+build / app / outputs / flutter-apk 
+
 ** 2020-11-11 update **
 
 if channel is now realtime broadcasting, play directly current live broadcast.
