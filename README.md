@@ -35,7 +35,7 @@ file: android>app>src>nauk>AndroidManifest.xml
 
 <manifest
  <application
-  android:label="YOUR±³È¸"  <-- Here
+  android:label="YOURCHURCH"  <-- Here
 
 2. change channel id
 file: >lib>utils>services.dart
