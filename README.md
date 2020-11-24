@@ -10,18 +10,25 @@ Resolution 1280*800
 Memory 2.0 GB
 
 The development environment:
-Android Studio 4.1 or VSCode 1.50.1
+Android Studio 4.1.1 or VSCode 1.50.1
+
 flutter 1.22.2
+
 flutter plugin for android studio 4.3
+
 dart plugin for android studio 4.3
 
 How to Build:
 1. With the environment ready, load the project
 
 2. After open pubspec.yaml file, add 4 lines to install dependancies automatically.
+
   cupertino_icons: ^1.0.0
+  
   http: ^0.12.0+2
+  
   youtube_player_flutter: ^7.0.0+7
+  
   cached_network_image: ^2.2.0+1
   
 3. If it not installed automatically, run >flutter pub get in terminal.
@@ -31,35 +38,47 @@ How to Build:
 == How to customize to your church == 
 
 1. change app label
+
 file: android>app>src>nauk>AndroidManifest.xml
 
 <manifest
+
  <application
+ 
   android:label="YOURCHURCH"  <-- Here
 
 2. change channel id
+
 file: >lib>utils>services.dart
 
 class Services{
-  //
+  
   static const CHANNEL_ID = 'UCfmySLZRhug4Hf1kE9zTauw';  <-- Here
 
 3. change icons
 
-Make your church icon 48*48, 72*72, 96*96, 144*144, 192*192
+Make your church icon 48 * 48, 72 * 72, 96 * 96, 144 * 144, 192 * 192
 (It is easier to make icons at https://appicon.co/)
 
 copy and overwrite icon files at
+
 android / app / src / main / res / mipmap-hdpi
+
 android / app / src / main / res / mipmap-mdpi
+
 android / app / src / main / res / mipmap-xhdpi
+
 android / app / src / main / res / mipmap-xxhdpi
+
 android / app / src / main / res / mipmap-xxxhdpi
+
 
 4. build 
 
 At the Androidstudio menu build->flutter->build apk
+
 output file "app-release.apk" placed at 
+
 build / app / outputs / flutter-apk 
 
 ** 2020-11-11 update **
